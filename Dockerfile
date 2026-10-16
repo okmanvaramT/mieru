@@ -2,7 +2,7 @@
 FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl tar \
+    ca-certificates curl tar bash \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl -fL \
@@ -21,4 +21,4 @@ RUN groupadd --system mita \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-CMD ["/entrypoint.sh"]
+CMD ["/bin/bash", "/entrypoint.sh"]
