@@ -2,7 +2,6 @@
 #!/bin/sh
 set -eu
 
-: "${PORT:=8443}"
 : "${MIERU_USER:?Set MIERU_USER in Railway Variables}"
 : "${MIERU_PASSWORD:?Set MIERU_PASSWORD in Railway Variables}"
 
@@ -10,7 +9,7 @@ cat > /tmp/server.json <<EOF
 {
   "portBindings": [
     {
-      "port": ${PORT},
+      "port": 8443,
       "protocol": "TCP"
     }
   ],
@@ -29,6 +28,5 @@ cat > /tmp/server.json <<EOF
 EOF
 
 export MITA_CONFIG_JSON_FILE=/tmp/server.json
-
-mita run
-
+mita replace config /tmp/server.json
+mita start
