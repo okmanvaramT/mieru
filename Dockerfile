@@ -1,14 +1,19 @@
 
-FROM golang:1.25-alpine AS build
-RUN apk add --no-cache git
-RUN git clone --depth 1 https://github.com/enfein/mieru.git /src
-WORKDIR /src
-RUN go build -o /mita ./cmd/mita
+FROM ubuntu:24.04
 
-FROM alpine:3.22
-RUN apk add --no-cache ca-certificates
-COPY --from=build /mita /usr/local/bin/mita
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates curl \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fL \
+    https://github.com/enfein/mieru/releases/download/v3.38.0/mita_3.38.0_amd64.deb \
+    -o /tmp/mita.deb \
+    && apt-get update \
+    && apt-get install -y /tmp/mita.deb \
+    && rm -f /tmp/mita.deb \
+    && rm -rf /var/lib/apt/lists/*
+
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
 
+CMD ["/entrypoint.sh"]
