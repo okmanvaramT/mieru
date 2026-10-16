@@ -1,11 +1,11 @@
 
-#!/bin/sh
-set -eu
+#!/bin/bash
+set -euo pipefail
 
 : "${MIERU_USER:?Set MIERU_USER in Railway Variables}"
 : "${MIERU_PASSWORD:?Set MIERU_PASSWORD in Railway Variables}"
 
-cat > /tmp/server.json <<EOF
+cat >/tmp/server.json <<EOF
 {
   "portBindings": [
     {
@@ -28,5 +28,9 @@ cat > /tmp/server.json <<EOF
 EOF
 
 export MITA_CONFIG_JSON_FILE=/tmp/server.json
+
+mkdir -p /var/run/mita
 mita replace config /tmp/server.json
 mita start
+
+exec tail -f /dev/null
