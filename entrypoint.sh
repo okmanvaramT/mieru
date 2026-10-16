@@ -15,8 +15,8 @@ cat >/tmp/server.json <<EOF
   ],
   "users": [
     {
-      "name": "${MIERU_USER}",
-      "password": "${MIERU_PASSWORD}"
+      "name": "iphone1",
+      "password": "@#Rh13740512"
     }
   ],
   "loggingLevel": "INFO",
